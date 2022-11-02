@@ -771,7 +771,7 @@ impl NaiveDateTime {
     ///            Duration::seconds(3600) - Duration::milliseconds(500));
     /// ```
     pub fn signed_duration_since(self, rhs: NaiveDateTime) -> OldDuration {
-        self.date.signed_duration_since(rhs.date)
+        OldDuration::days(self.date.days_since(rhs.date))
             + self.time.duration_since(rhs.time).as_old_duration().expect("Should succeed")
     }
 
