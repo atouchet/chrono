@@ -418,6 +418,9 @@ mod oldtime;
 // this reexport is to aid the transition and should not be in the prelude!
 pub use oldtime::{Duration, OutOfRangeError};
 
+mod time_delta;
+pub use time_delta::TimeDelta;
+
 #[cfg(feature = "__doctest")]
 #[cfg_attr(feature = "__doctest", cfg(doctest))]
 use doc_comment::doctest;
