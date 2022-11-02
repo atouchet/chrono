@@ -9,10 +9,13 @@
 // except according to those terms.
 
 //! Temporal quantification
+use core::ops::Neg;
 use core::time::Duration;
 
 #[cfg(feature = "rkyv")]
 use rkyv::{Archive, Deserialize, Serialize};
+
+use crate::oldtime::Duration as OldDuration;
 
 #[derive(Clone, Copy, PartialOrd, Ord, Debug)]
 #[cfg_attr(feature = "rkyv", derive(Archive, Deserialize, Serialize))]
@@ -70,6 +73,13 @@ impl TimeDelta {
         match self {
             TimeDelta::Forwards(d) => *d,
             TimeDelta::Backwards(d) => *d,
+        }
+    }
+
+    pub(crate) fn as_old_duration(&self) -> Option<OldDuration> {
+        match self {
+            TimeDelta::Forwards(d) => OldDuration::from_std(*d).ok(),
+            TimeDelta::Backwards(d) => OldDuration::from_std(*d).ok().map(Neg::neg),
         }
     }
 }
